@@ -1,0 +1,409 @@
+/* --- VARIABLES GLOBALES --- */
+:root {
+    --pente: 8vw;           /* L'inclinaison des sections */
+    --overlap: -7.9vw;      /* La marge négative pour coller les sections */
+    --font-space: 4vw;      /* Espacement des lettres dynamique */
+    --gold-text: #fff;
+    --sidebar-bg: #fff;
+    --sidebar-text: #5d4a44;
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --pente: 5vw;
+        --overlap: -4.9vw;
+    }
+}
+
+/* --- BASES --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* --- SECTIONS COMMUNES --- */
+.section, .section-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    margin-top: var(--overlap);
+    clip-path: polygon(0 0, 100% var(--pente), 100% 100%, 0 calc(100% - var(--pente)));
+    transition: height 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: height;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    transition: background 1.2s ease-out;
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    transition: background 1.2s ease-out;
+}
+
+/* --- HERO (SECTION 1) --- */
+.hero {
+    margin-top: 0;
+    height: clamp(220px, 35vh, 450px);
+    background-image: url('../assets/img/section1.jpg');
+    justify-content: flex-start;
+    padding: clamp(20px, 5vw, 50px);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--pente)));
+    z-index: 20;
+    align-items: flex-start;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+    margin-top: clamp(60px, 10vh, 150px);
+}
+
+/* --- TEXTES RESPONSIVE --- */
+h1 {
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    letter-spacing: clamp(8px, var(--font-space), 22px);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: clamp(1.6rem, 4.5vw, 3.2rem);
+    letter-spacing: clamp(8px, 4vw, 22px);
+    text-transform: uppercase;
+}
+
+/* --- CONTENU DES SECTIONS --- */
+.section-container {
+    width: 100%;
+    z-index: 5;
+    text-align: center;
+    padding: var(--pente) 20px;
+    cursor: pointer;
+}
+
+.section-content {
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    max-width: 700px;
+    margin: 0 auto;
+    pointer-events: none;
+}
+
+.section-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* État Actif / Hover */
+.section.active, .section:hover {
+    z-index: 30;
+}
+
+@media (max-width: 1023px) {
+    .section { height: 280px; }
+}
+
+@media (min-width: 1024px) {
+    .section { height: 30vw; }
+    .section:hover { height: 50vw; }
+    .section:hover .section-content { opacity: 1; transform: translateY(0); pointer-events: auto; margin-top: 30px; }
+}
+
+/* --- DERNIÈRE SECTION (ENGAGE) --- */
+.engage {
+    background-image: url('../assets/img/section1.jpg');
+    height: 450px;
+    z-index: 1;
+    clip-path: polygon(0 0, 100% var(--pente), 100% 100%, 0 100%);
+}
+
+.engage::before { background: rgba(0, 0, 0, 0.65); }
+
+.content-engage {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.inscription-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* --- BOUTON INSCRIPTION --- */
+.inscription-btn {
+    position: relative;
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 45px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    text-decoration: none;
+    color: #fff;
+    transition: all 1.2s ease-out;
+}
+
+.inscription-btn::before { content: ""; position: absolute; top: 0; left: 0; width: 65%; height: 2px; background: #fff; transition: width 1.2s ease-out; }
+.inscription-btn::after { content: ""; position: absolute; bottom: 0; right: 0; width: 2px; height: 35%; background: #fff; transition: height 1.2s ease-out; }
+
+.inscription-btn:hover::before { width: 100%; }
+.inscription-btn:hover::after { height: 100%; }
+
+.inscription-btn span {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: clamp(6px, 2vw, 15px);
+    display: block;
+}
+
+/* --- SIDEBAR & MENU --- */
+.menu-icon {
+    position: absolute;
+    top: clamp(20px, 3vw, 40px);
+    left: clamp(20px, 3vw, 40px);
+    width: 35px; height: 22px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    z-index: 1001; cursor: pointer;
+}
+
+.menu-icon span { height: 3px; width: 100%; background: #fff; border-radius: 2px; }
+
+.sidebar {
+    position: fixed; top: 0; left: -320px;
+    width: 320px; max-width: 85vw; height: 100svh;
+    background: var(--sidebar-bg); color: var(--sidebar-text);
+    z-index: 1100; transition: left 0.4s ease;
+    padding: 30px; display: flex; flex-direction: column;
+}
+
+.sidebar.active { left: 0; }
+
+.sidebar-logo { width: 140px; margin: 0 auto 40px; }
+
+.close-btn {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; font-size: 2.5rem;
+    cursor: pointer; color: #000;
+}
+
+.sidebar-nav ul { list-style: none; }
+.sidebar-nav li { border-bottom: 1px solid #eee; padding: 15px 0; }
+.sidebar-nav a {
+    text-decoration: none; color: inherit;
+    font-size: 1.8rem; font-weight: 400;
+    display: block;
+}
+
+.sidebar-footer { margin-top: auto; padding-top: 20px; }
+.sidebar-footer a { display: block; font-size: 1.2rem; color: inherit; text-decoration: none; margin-bottom: 5px; }
+
+.social-icons { display: flex; gap: 15px; margin-top: 15px; }
+.social-icons img { width: 40px; height: 40px; filter: grayscale(1); opacity: 0.7; }
+
+/* --- OVERLAY --- */
+.overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    opacity: 0; pointer-events: none;
+    transition: 0.3s; z-index: 1050;
+}
+.overlay.active { opacity: 1; pointer-events: auto; }
+
+/* --- IMAGES SPECIFIQUES --- */
+.louange { background-image: url('../assets/img/section1.jpg'); z-index: 10; }
+.temp-frat { background-image: url('../assets/img/section2.jpg'); z-index: 9; }
+.topo { background-image: url('../assets/img/section3.jpg'); z-index: 8; }
+.adoration { background-image: url('../assets/img/section4.jpg'); z-index: 7; }
+.pot-frat { background-image: url('../assets/img/section5.jpg'); z-index: 6; }
+
+/* ===== HERO : moins haut sur mobile ===== */
+@media (max-width: 1023px) {
+    .hero{
+        height: clamp(180px, 28svh, 320px);
+        padding: clamp(16px, 4vw, 36px);
+    }
+
+    .hero-content{
+        margin-top: clamp(40px, 6svh, 90px); /* au lieu de 10vh */
+    }
+
+    .hero h1{
+        font-size: clamp(1.6rem, 6vw, 2.4rem);
+        letter-spacing: clamp(6px, 3vw, 16px);
+    }
+}
+/* --- STYLES PAGE CONTACT --- */
+
+/* Fond spécifique à la page contact */
+.contact-body {
+    background-image: url('../assets/img/section4.jpg'); /* Image de la basilique */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-fullscreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4); /* Filtre sombre pour lire le texte */
+}
+
+.contact-overlay-content {
+    text-align: center;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.contact-main-title {
+    font-size: clamp(2.5rem, 10vw, 5.5rem);
+    letter-spacing: clamp(10px, 4vw, 35px);
+    font-weight: 400;
+    margin-bottom: 60px;
+    text-indent: clamp(10px, 4vw, 35px); /* Pour bien centrer malgré le letter-spacing */
+}
+
+.contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.contact-item h3 {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.contact-item p {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 400;
+}
+
+/* Bouton Retour */
+.back-button {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    z-index: 100;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 20px;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background: white;
+    color: black;
+}
+/* --- PAGE LES WE JET --- */
+
+/* Hero de la page WE */
+.hero-we {
+    background-image: url('../assets/img/section6.JPG');
+    height: 45vh;
+    margin-top: 0;
+    clip-path: none;
+}
+
+/* Bannière noire séparatrice */
+.we-separator {
+    background: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 0;
+    position: relative;
+    z-index: 25;
+    clip-path: none;
+}
+
+.we-separator h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    letter-spacing: 12px;
+    font-weight: 400;
+}
+
+/* Section Inscription */
+.section-we-inscription {
+    background-image: url('../assets/img/section7.JPG');
+    min-height: 50vh;
+    z-index: 20;
+    clip-path: none;
+    margin-top: 0;
+}
+
+/* Section Horizon */
+.section-we-horizon {
+    background-image: url('../assets/img/section8.JPG');
+    min-height: 50vh;
+    z-index: 15;
+    clip-path: none;
+    margin-top: 0;
+}
+
+/* Contenu spécifique WE */
+.content-we {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    width: 100%;
+    padding: 100px 20px;
+}
+
+.title-horizon {
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+/* Ajustement de l'icône menu pour servir de retour */
+.menu-icon-back {
+    position: absolute;
+    top: clamp(20px, 3vw, 40px);
+    left: clamp(20px, 3vw, 40px);
+    width: 35px; height: 22px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    z-index: 1001; cursor: pointer;
+}
+.menu-icon-back span { height: 3px; width: 100%; background: #fff; border-radius: 2px; }
