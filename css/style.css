@@ -367,7 +367,7 @@ h2 {
 
 /* Section Inscription */
 .section-we-inscription {
-    background-image: url('../assets/img/section7.JPG');
+    background-image: url('/assets/img/section7.JPG');
     min-height: 50vh;
     z-index: 20;
     clip-path: none;
